@@ -1,0 +1,22 @@
+const Base = require('./base.js');
+
+module.exports = class extends Base {
+  async totalAction() {
+    const cid = this.get('cid');
+    var total = this.model('cards').field(['total']).where({cid: cid}).find();
+
+    return this.success(total)
+  }
+
+  async menuAction() {
+    const unionId = this.getLoginUserId();
+    const page = this.get('page');
+    const size = this.get('size');
+    const model = this.model('cards');
+
+    const data = model.field(['cid', 'title', 'time', 'total', 'coll']).where({unionId: unionId})
+      .page(page || 1, size || 10).countSelect().order('time DESC');
+
+    return this.success(data);
+  }
+};
