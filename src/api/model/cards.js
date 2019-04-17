@@ -23,6 +23,6 @@ module.exports = class extends think.Model {
       });
     }
 
-      return goodsList;
+      return cards;
     }
   };
