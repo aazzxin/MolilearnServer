@@ -7,8 +7,7 @@ module.exports = class extends think.Model {
    * @returns {Promise.<*>}
    */
   async getQuestionList(cid, page, size, edit) {
-    const model = this.model('questions');
-    const data = await model.where({cid: cid})
+    const data = await this.where({cid: cid})
       .page(page || 1, size || 5).countSelect().order('idx ASC');
 
     const questions = [];
