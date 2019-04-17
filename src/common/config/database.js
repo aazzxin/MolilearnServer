@@ -5,9 +5,9 @@ module.exports = {
   database: 'molilearn',
   prefix: 'molilearn_',
   encoding: 'utf8mb4',
-  host: '123.207.111.240',
+  host: '',
   port: '3306',
   user: 'root',
-  password: 'AAZZbing345+mysql',
+  password: '',
   dateStrings: true
 };
