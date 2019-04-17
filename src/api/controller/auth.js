@@ -13,17 +13,16 @@ module.exports = class extends Base {
     }
 
     // 根据unionId查找用户是否已经注册
-    let userId = await this.model('users').where({ unionId: userInfo.unionId }).getField('unionId', true);
+    let userId = await this.model('users').where({ openId: userInfo.openId }).getField('openId', true);
     if (think.isEmpty(userId)) {
       // 注册
       userId = await this.model('users').add({
         // username: '微信用户' + think.uuid(6),
-        unionId: userInfo.unionId,
         // password: '',
+        openId: userInfo.openId,
         register_time: parseInt(new Date().getTime() / 1000),
         register_ip: clientIp,
         // mobile: '',
-        openId: userInfo.openId,
         avatar: userInfo.avatarUrl || '',
         gender: userInfo.gender || 0, // 性别 0：男、1：女
         nickName: userInfo.nickName
@@ -31,10 +30,10 @@ module.exports = class extends Base {
     }
 
     // 查询用户信息
-    const newUserInfo = await this.model('users').field(['unionId', 'nickname', 'gender', 'avatar']).where({ unionId: userId }).find();
+    const newUserInfo = await this.model('users').field(['nickname', 'gender', 'avatar']).where({ openId: userId }).find();
 
     // 更新登录信息
-    userId = await this.model('users').where({ unionId: userId }).update({
+    userId = await this.model('users').where({ openId: userId }).update({
       last_login_time: parseInt(new Date().getTime() / 1000),
       last_login_ip: clientIp
     });

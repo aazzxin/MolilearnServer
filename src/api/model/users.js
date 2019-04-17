@@ -1,5 +1,5 @@
 module.exports = class extends think.Model {
   get pk() {
-    return 'unionId';
+    return 'openId';
   }
 };

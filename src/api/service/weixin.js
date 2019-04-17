@@ -16,21 +16,26 @@ module.exports = class extends think.Service {
           appid: think.config('weixin.appid')
         }
       };
-
+      console.log('appid', think.config('weixin.appid'));
+      console.log('port', think.config('port'));
       let sessionData = await rp(options);
       sessionData = JSON.parse(sessionData);
+           console.log('sessionData', sessionData);
       if (!sessionData.openid) {
         return null;
       }
 
       // 验证用户信息完整性
+      console.log('rawdata', fullUserInfo.rawData.toString());
       const sha1 = crypto.createHash('sha1').update(fullUserInfo.rawData.toString() + sessionData.session_key).digest('hex');
+      console.log('sha1', sha1);
       if (fullUserInfo.signature !== sha1) {
         return null;
       }
 
       // 解析用户数据
       const wechatUserInfo = await this.decryptUserInfoData(sessionData.session_key, fullUserInfo.encryptedData, fullUserInfo.iv);
+      console.log('userInfo', wechatUserInfo);
       if (think.isEmpty(wechatUserInfo)) {
         return null;
       }

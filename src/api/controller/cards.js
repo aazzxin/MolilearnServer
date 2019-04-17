@@ -9,12 +9,12 @@ module.exports = class extends Base {
   }
 
   async menuAction() {
-    const unionId = this.getLoginUserId();
+    const openId = this.getLoginUserId();
     const page = this.get('page');
     const size = this.get('size');
     const model = this.model('cards');
 
-    const data = model.field(['cid', 'title', 'time', 'total', 'coll']).where({unionId: unionId})
+    const data = model.field(['cid', 'title', 'time', 'total', 'coll']).where({openId: openId})
       .page(page || 1, size || 10).countSelect().order('time DESC');
 
     return this.success(data);

@@ -13,7 +13,7 @@ module.exports = class extends Base {
   }
 
   async submitAction() {
-    const unionId = this.getLoginUserId();
+    const openId = this.getLoginUserId();
     const cid = this.get('cid');
     const answers = this.post('answers');
 
@@ -41,8 +41,8 @@ module.exports = class extends Base {
         answersData.where({unionId: unionId, qid: qid}).update({correct: correct})
       }
     }
-    const correctNum = answersData.where({unionId: unionId, correct: true}).count('*');
-    usersinfo.where({unionId: unionId}).update({correctNum: correctNum});
+    const correctNum = answersData.where({openId: openId, correct: true}).count('*');
+    usersinfo.where({openId: openId}).update({correctNum: correctNum});
 
     // 返回题库答案
     const allAnswer = questions.field(['qid', 'answer']).where({cid: cid});
@@ -59,7 +59,7 @@ module.exports = class extends Base {
   }
 
   async editList() {
-    const unionId = this.getLoginUserId();
+    const openId = this.getLoginUserId();
     const cid = this.get('cid');
     const page = this.get('page');
     const size = this.get('size');

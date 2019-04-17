@@ -7,7 +7,7 @@ module.exports = class extends think.Model {
   * @returns {Promise.<*>}
   */
   async getCardsList(page, size) {
-    const data = await this.join('users ON cards.unionId=users.unionId')
+    const data = await this.join('users ON cards.openId=users.openId')
       .field(['cards.*', 'users.nickName'])
       .page(page || 1, size || 10).countSelect();
 
