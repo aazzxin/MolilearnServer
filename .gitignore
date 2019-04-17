@@ -36,5 +36,4 @@ app/
 config.development.js
 adapter.development.js
 
-src/common/config/config.js
-src/common/config/database.js
+src/common/config
