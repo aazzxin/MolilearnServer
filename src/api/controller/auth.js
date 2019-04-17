@@ -30,16 +30,16 @@ module.exports = class extends Base {
     }
 
     // 查询用户信息
-    const newUserInfo = await this.model('users').field(['nickname', 'gender', 'avatar']).where({ openId: userId }).find();
+    const newUserInfo = await this.model('users').field(['nickname', 'gender', 'avatar']).where({ openId: userInfo.openId }).find();
 
     // 更新登录信息
-    userId = await this.model('users').where({ openId: userId }).update({
+    userId = await this.model('users').where({ openId: userInfo.openId }).update({
       last_login_time: parseInt(new Date().getTime() / 1000),
       last_login_ip: clientIp
     });
 
     const TokenSerivce = this.service('token', 'api');
-    const sessionKey = await TokenSerivce.create({ user_id: userId });
+    const sessionKey = await TokenSerivce.create({ user_id: userInfo.openId });
 
     if (think.isEmpty(newUserInfo) || think.isEmpty(sessionKey)) {
       return this.fail('登录失败');
