@@ -22,7 +22,7 @@ module.exports = class extends Base {
     const questions = this.model('questions');
     const answersData = this.model('answers');
 
-    const total = this.model('cards').field(['total']).where({cid: cid}).find();
+    const total = await this.model('cards').field(['total']).where({cid: cid}).find();
     // 提交用户答案， 计算用户答对题数，并登记错题集
     if (think.isEmpty(total)) {
       return this.fail('找不到对应题库')
@@ -41,11 +41,11 @@ module.exports = class extends Base {
         answersData.where({unionId: unionId, qid: qid}).update({correct: correct})
       }
     }
-    const correctNum = answersData.where({openId: openId, correct: true}).count('*');
+    const correctNum = await answersData.where({openId: openId, correct: true}).count('*');
     usersinfo.where({openId: openId}).update({correctNum: correctNum});
 
     // 返回题库答案
-    const allAnswer = questions.field(['qid', 'answer']).where({cid: cid});
+    const allAnswer = await questions.field(['qid', 'answer']).where({cid: cid});
     const res = {};
     for (let i = 0; i < allAnswer.length; i++) {
       let qid = allAnswer[i].qid;
