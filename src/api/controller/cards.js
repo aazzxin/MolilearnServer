@@ -19,4 +19,10 @@ module.exports = class extends Base {
 
     return this.success(data);
   }
+
+  async addAction() {
+    const model = this.model('cards');
+    
+    return this.success();
+  }
 };
