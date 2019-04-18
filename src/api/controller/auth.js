@@ -27,6 +27,11 @@ module.exports = class extends Base {
         gender: userInfo.gender || 0, // 性别 0：男、1：女
         nickName: userInfo.nickName
       });
+      userId = await this.model('usersinfo').add({
+        openId: userInfo.openId,
+        collNum: 0,
+        correctNum: 0
+      })
     }
 
     // 查询用户信息
