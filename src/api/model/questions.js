@@ -8,7 +8,7 @@ module.exports = class extends think.Model {
    */
   async getQuestionList(cid, page, size, edit) {
     const data = await this.where({cid: cid})
-      .page(page || 1, size || 5).countSelect().order('idx ASC');
+      .page(page || 1, size || 5).order('idx ASC').select();
 
     const questions = [];
     // 字符解析

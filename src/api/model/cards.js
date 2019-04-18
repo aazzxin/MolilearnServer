@@ -9,7 +9,7 @@ module.exports = class extends think.Model {
   async getCardsList(page, size) {
     const data = await this.join('users ON cards.openId=users.openId')
       .field(['cards.*', 'users.nickName'])
-      .page(page || 1, size || 10).countSelect();
+      .page(page || 1, size || 10).select();
 
     const cards = [];
     for (let i = 0; i < data.length; i++) {
