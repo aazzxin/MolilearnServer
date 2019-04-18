@@ -4,13 +4,13 @@ const _ = require('lodash');
 
 module.exports = class extends Base {
   async infoAction() {
-    const unionId = this.getLoginUserId();
+    const openId = this.getLoginUserId();
 
     const model = this.model('usersinfo');
-    const data = model.field(['collNum', 'correctNum']).where({unionId: unionId});
-    const cardsNum = this.model('cards').where({unionId: unionId}).count('*');
+    const data = model.field(['collNum', 'correctNum']).where({openId: openId});
+    const cardsNum = this.model('cards').where({openId: openId}).count('*');
 
-    return success({
+    return this.success({
       collNum: data.collNum,
       cardsNum: cardsNum,
       correctNum: data.correctNum

@@ -30,7 +30,7 @@ module.exports = class extends Base {
     }
 
     // 查询用户信息
-    const newUserInfo = await this.model('users').field(['nickname', 'gender', 'avatar']).where({ openId: userInfo.openId }).find();
+    const newUserInfo = await this.model('users').field(['nickName', 'gender', 'avatar']).where({ openId: userInfo.openId }).find();
 
     // 更新登录信息
     userId = await this.model('users').where({ openId: userInfo.openId }).update({
