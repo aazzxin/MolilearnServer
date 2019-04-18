@@ -15,7 +15,7 @@ module.exports = class extends Base {
     const model = this.model('cards');
 
     const data = model.field(['cid', 'title', 'time', 'total', 'coll']).where({openId: openId})
-      .page(page || 1, size || 10).countSelect().order('time DESC');
+      .page(page || 1, size || 10).order('time DESC').countSelect();
 
     return this.success(data);
   }

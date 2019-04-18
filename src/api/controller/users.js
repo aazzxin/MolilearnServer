@@ -7,7 +7,7 @@ module.exports = class extends Base {
     const openId = this.getLoginUserId();
 
     const model = this.model('usersinfo');
-    const data = model.field(['collNum', 'correctNum']).where({openId: openId});
+    const data = model.field(['collNum', 'correctNum']).where({openId: openId}).find();
     const cardsNum = this.model('cards').where({openId: openId}).count('*');
 
     return this.success({
