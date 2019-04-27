@@ -9,8 +9,7 @@ module.exports = {
     'auth',
     'goods',
     'brand',
-    'search',
-    'region'
+    'search'
   ],
 
   // 可以公开访问的Action

@@ -58,7 +58,7 @@ module.exports = class extends Base {
     return this.success(res);
   }
 
-  async editList() {
+  async editListAction() {
     const openId = this.getLoginUserId();
     const cid = this.get('cid');
     const page = this.get('page');
