@@ -67,5 +67,6 @@ module.exports = class extends Base {
     const model = this.model('questions');
     const data = await model.getQuestionList(cid, page, size, true);
     
+    return this.success(data);
   }
 };
