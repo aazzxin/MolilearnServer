@@ -30,13 +30,14 @@ module.exports = class extends Base {
     const model = this.model('cards');
     const cid = think.uuid(6);
     console.log('cid', cid);
+    console.log('questions', questions);
 
     let card = await model.add({
       cid: cid,
       title: title,
       openId: this.getLoginUserId(),
       time: this.getDate(),
-      tota: questions.length,
+      total: questions.length,
       coll: 0
     });
 
