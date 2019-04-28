@@ -27,14 +27,20 @@ module.exports = class extends Base {
   async addAction() {
     const questions = this.get('questions');
     const model = this.model('cards');
-    const uid = think.uuid();
-       console.log('uid', uid);
+    const cid = think.uuid(6);
+    console.log('cid', cid);
 
-       let cid = await model.add({
-         cid: uid,
-         title: questions.title,
-         openId: this.getLoginUserId()
-       });
+    let card = await model.add({
+      cid: cid,
+      title: questions.title,
+      openId: this.getLoginUserId(),
+      time: this.getDate(),
+      tota: questions.length,
+      coll: 0
+    });
+
+    const qstsModel = this.model('questions');
+    qstsModel.addQuestionList(cid, questions);
     
     return this.success();
   }

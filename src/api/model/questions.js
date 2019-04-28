@@ -21,14 +21,33 @@ module.exports = class extends think.Model {
         index: qst.idx,
         single: qst.single,
         title: qst.title,
+        qst: JSON.parse(qst.qst),
         note: qst.note,
         selectValue: []
       }
       if (edit) {
-        res.selectValue = qst.answer
+        res.selectValue = JSON.parse(qst.answer)
       }
       questions.push(res);
     }
     return questions;
+  }
+  /**
+   * 创建cid相应的question列表
+   * @returns {Promise.<*>}
+   */
+  async addQuestionList(cid, questions) {
+    for (let i = 0; i < questions.length; i++) {
+      let id = this.add({
+        qid: think.uuid(6),
+        cid: cid,
+        Idx: questions[i].idnex,
+        single: questions[i].single,
+        title: questions[i].title,
+        qst: JSON.stringify(questions[i].checkboxList),
+        answer: JSON.stringify(questions[i].selectValue),
+        note: ''
+      });
+    }
   }
 };
