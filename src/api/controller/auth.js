@@ -20,7 +20,7 @@ module.exports = class extends Base {
         // username: '微信用户' + think.uuid(6),
         // password: '',
         openId: userInfo.openId,
-        register_time: new Date().toLocaleDateString(),
+        register_time: this.getDate(),
         register_ip: clientIp,
         // mobile: '',
         avatar: userInfo.avatarUrl || '',
@@ -39,7 +39,7 @@ module.exports = class extends Base {
 
     // 更新登录信息
     userId = await this.model('users').where({ openId: userInfo.openId }).update({
-      last_login_time: new Date().toLocaleDateString(),
+      last_login_time: this.getDate(),
       last_login_ip: clientIp
     });
 

@@ -31,4 +31,12 @@ module.exports = class extends think.Controller {
   getLoginUserId() {
     return this.ctx.state.userId;
   }
+
+  getDate() {
+    var date = new Date();
+    // 月份为0-11，所以+1，月份小于10时补个0
+    var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+    var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+    return date.getFullYear() + "-" + month + "-" + currentDate;
+  }
 };
