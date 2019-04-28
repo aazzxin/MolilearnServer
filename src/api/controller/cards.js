@@ -25,6 +25,7 @@ module.exports = class extends Base {
   }
 
   async addAction() {
+    const title = this.getDate('title');
     const questions = this.get('questions');
     const model = this.model('cards');
     const cid = think.uuid(6);
@@ -32,7 +33,7 @@ module.exports = class extends Base {
 
     let card = await model.add({
       cid: cid,
-      title: questions.title,
+      title: title,
       openId: this.getLoginUserId(),
       time: this.getDate(),
       tota: questions.length,
