@@ -41,7 +41,7 @@ module.exports = class extends think.Model {
       let id = this.add({
         qid: think.uuid(6),
         cid: cid,
-        Idx: questions[i].idnex,
+        Idx: questions[i].index,
         single: questions[i].single,
         title: questions[i].title,
         qst: JSON.stringify(questions[i].checkboxList),

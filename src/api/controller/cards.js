@@ -25,7 +25,7 @@ module.exports = class extends Base {
   }
 
   async addAction() {
-    const title = this.getDate('title');
+    const title = this.get('title');
     const questions = this.get('questions');
     const model = this.model('cards');
     const cid = think.uuid(6);
