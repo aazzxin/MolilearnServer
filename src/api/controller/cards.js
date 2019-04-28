@@ -25,7 +25,16 @@ module.exports = class extends Base {
   }
 
   async addAction() {
+    const questions = this.get('questions');
     const model = this.model('cards');
+    const uid = think.uuid();
+       console.log('uid', uid);
+
+       let cid = await model.add({
+         cid: uid,
+         title: questions.title,
+         openId: this.getLoginUserId()
+       });
     
     return this.success();
   }
