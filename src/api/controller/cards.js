@@ -3,13 +3,13 @@ const Base = require('./base.js');
 module.exports = class extends Base {
   async totalAction() {
     const cid = this.get('cid');
-    var total = await this.model('cards').field(['total']).where({cid: cid}).find();
+    var res = await this.model('cards').field(['total']).where({cid: cid}).find();
 
     if (think.isEmpty(total)) {
-      total = 1
+      res = {total: 1}
     }
 
-    return this.success(total)
+    return this.success(res.total)
   }
 
   async menuAction() {
