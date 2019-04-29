@@ -18,7 +18,7 @@ module.exports = class extends think.Model {
       let res = {
         qid: qst.qid,
         cid: qst.cid,
-        index: qst.Idx,
+        index: qst.idx,
         type: 'select',
         single: qst.single,
         title: qst.title,
