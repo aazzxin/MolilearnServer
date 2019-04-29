@@ -18,7 +18,7 @@ module.exports = class extends Base {
     const answers = this.post('answers');
 
     const users = this.model('users');
-    const usersinfo = this.mode('usersinfo');
+    const usersinfo = this.model('usersinfo');
     const questions = this.model('questions');
     const answersData = this.model('answers');
 
