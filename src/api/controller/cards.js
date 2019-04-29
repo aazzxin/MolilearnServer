@@ -5,7 +5,7 @@ module.exports = class extends Base {
     const cid = this.get('cid');
     var res = await this.model('cards').field(['total']).where({cid: cid}).find();
 
-    if (think.isEmpty(total)) {
+    if (think.isEmpty(res)) {
       res = {total: 1}
     }
 
