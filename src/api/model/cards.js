@@ -8,7 +8,7 @@ module.exports = class extends think.Model {
   */
   async getCardsList(page, size) {
     const data = await this.join('users ON cards.openId=users.openId')
-      .field(['cards.*', 'users.nickName'])
+      .field(['cards.*', 'users.nickName', 'users.avatar']).order('time DESC')
       .page(page || 1, size || 10).select();
 
     const cards = [];
@@ -17,6 +17,7 @@ module.exports = class extends think.Model {
       cards.push({
         cid: card.cid,
         publisher: card.nickName,
+        avatar: card.avatar,
         title: card.title,
         time: card.time,
         coll: card.coll
