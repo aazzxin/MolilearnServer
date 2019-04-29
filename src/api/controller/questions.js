@@ -45,7 +45,7 @@ module.exports = class extends Base {
     usersinfo.where({openId: openId}).update({correctNum: correctNum});
 
     // 返回题库答案
-    const allAnswer = await questions.field(['qid', 'answer']).where({cid: cid});
+    const allAnswer = await questions.field(['qid', 'answer']).where({cid: cid}).select();
     const res = {};
     for (let i = 0; i < allAnswer.length; i++) {
       let qid = allAnswer[i].qid;
