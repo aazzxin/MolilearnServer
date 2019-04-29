@@ -18,7 +18,8 @@ module.exports = class extends think.Model {
       let res = {
         qid: qst.qid,
         cid: qst.cid,
-        index: qst.idx,
+        index: qst.Idx,
+        type: 'select',
         single: qst.single,
         title: qst.title,
         checkboxList: JSON.parse(qst.qst),
