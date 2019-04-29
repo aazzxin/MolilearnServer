@@ -15,7 +15,7 @@ module.exports = class extends Base {
   async submitAction() {
     const openId = this.getLoginUserId();
     const cid = this.get('cid');
-    const answers = this.post('answers');
+    const answers = this.get('answers');
 
     const users = this.model('users');
     const usersinfo = this.model('usersinfo');
