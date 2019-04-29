@@ -29,16 +29,16 @@ module.exports = class extends Base {
     }
     for (let qid in answers) {
       let answer = await questions.field(['answer']).where({qid: qid}).find();
-      let id = await answersData.where({unionId: unionId, qid: qid}).find();
+      let id = await answersData.where({openId: openId, qid: qid}).find();
       let correct = answer === answers[qid]
       if (think.isEmpty(id)) {
         answersData.add({
-          unionId: unionId,
+          openId: openId,
           qid: qid,
           correct: correct
         })
       } else {
-        answersData.where({unionId: unionId, qid: qid}).update({correct: correct})
+        answersData.where({openId: openId, qid: qid}).update({correct: correct})
       }
     }
     const correctNum = await answersData.where({openId: openId, correct: true}).count('*');
