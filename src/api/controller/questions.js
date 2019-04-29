@@ -27,10 +27,20 @@ module.exports = class extends Base {
     if (think.isEmpty(total)) {
       return this.fail('找不到对应题库')
     }
-    for (let qid in answers) {
-      let answer = await questions.field(['answer']).where({qid: qid}).find();
+
+    // 返回题库答案
+    const allAnswer = await questions.field(['qid', 'answer']).where({cid: cid}).select();
+    const res = {};
+    for (let i = 0; i < allAnswer.length; i++) {
+      // 获得答案
+      let qid = allAnswer[i].qid;
+      res[qid] = allAnswer[i].answer;
+      if (res[qid].startsWith("[") && res[qid].endsWith("]")) {
+        res[qid] = JSON.parse(res[qid]);
+      }
+
       let id = await answersData.where({openId: openId, qid: qid}).find();
-      let correct = answer === answers[qid]
+      let correct = res[qid] === answers[qid]
       if (think.isEmpty(id)) {
         answersData.add({
           openId: openId,
@@ -43,17 +53,6 @@ module.exports = class extends Base {
     }
     const correctNum = await answersData.where({openId: openId, correct: true}).count('*');
     usersinfo.where({openId: openId}).update({correctNum: correctNum});
-
-    // 返回题库答案
-    const allAnswer = await questions.field(['qid', 'answer']).where({cid: cid}).select();
-    const res = {};
-    for (let i = 0; i < allAnswer.length; i++) {
-      let qid = allAnswer[i].qid;
-      res[qid] = allAnswer[i].answer;
-      if (res[qid].startsWith("[") && res[qid].endsWith("]")) {
-        res[qid] = JSON.parse(res[qid]);
-      }
-    }
 
     return this.success(res);
   }
