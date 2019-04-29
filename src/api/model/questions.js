@@ -21,7 +21,7 @@ module.exports = class extends think.Model {
         index: qst.idx,
         single: qst.single,
         title: qst.title,
-        qst: JSON.parse(qst.qst),
+        checkboxList: JSON.parse(qst.qst),
         note: qst.note,
         selectValue: []
       }
