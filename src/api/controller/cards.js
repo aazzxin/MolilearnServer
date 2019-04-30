@@ -65,7 +65,12 @@ module.exports = class extends Base {
     const cid = this.get('cid');
     const model = this.model('cards');
 
-    let affectedRows = model.where({cid: cid}).delete();
+    let affectedRows = await model.where({cid: cid}).delete();
+
+    const answersData = this.model('answers');
+    const usersinfo = this.model('usersinfo');
+    const correctNum = await answersData.where({openId: openId, correct: true}).count('*');
+    usersinfo.where({openId: openId}).update({correctNum: correctNum});
 
     return this.success()
   }
