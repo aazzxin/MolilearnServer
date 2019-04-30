@@ -13,7 +13,7 @@ module.exports = class extends Base {
     const history = this.model('history');
     const openId = this.getLoginUserId();
     var id = history.where({openId: openId, cid: cid}).find();
-    if (this.isEmpty(id)) {
+    if (think.isEmpty(id)) {
       history.add({
         openId: openId,
         cid: cid,
