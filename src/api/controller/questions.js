@@ -15,8 +15,7 @@ module.exports = class extends Base {
   async submitAction() {
     const openId = this.getLoginUserId();
     const cid = this.get('cid');
-    const answers = this.get('answers');
-
+    const answers = JSON.parse(this.get('answers'));
     const users = this.model('users');
     const usersinfo = this.model('usersinfo');
     const questions = this.model('questions');
@@ -35,20 +34,25 @@ module.exports = class extends Base {
       // 获得答案
       let qid = allAnswer[i].qid;
       res[qid] = allAnswer[i].answer;
+      var correct = false;
       if (res[qid].startsWith("[") && res[qid].endsWith("]")) {
         res[qid] = JSON.parse(res[qid]);
-      }
+        res[qid].sort();
+              answers[qid].sort();
+        correct = res[qid].join() === answers[qid].join();
+      } else {
+              correct = res[qid] === answers[qid];
+          }
 
       let id = await answersData.where({openId: openId, qid: qid}).find();
-      let correct = res[qid] === answers[qid]
       if (think.isEmpty(id)) {
-        answersData.add({
+        let id = await answersData.add({
           openId: openId,
           qid: qid,
-          correct: correct
+          correct: correct ? 1 : 0
         })
       } else {
-        answersData.where({openId: openId, qid: qid}).update({correct: correct})
+        let id = await answersData.where({openId: openId, qid: qid}).update({correct: correct ? 1 : 0})
       }
     }
     const correctNum = await answersData.where({openId: openId, correct: true}).count('*');
