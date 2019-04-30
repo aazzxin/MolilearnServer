@@ -8,7 +8,6 @@ module.exports = class extends Base {
 
     const model = this.model('questions');
     const data = await model.getQuestionList(cid, page, size, false);
-
     return this.success(data);
   }
 
@@ -38,11 +37,11 @@ module.exports = class extends Base {
       if (res[qid].startsWith("[") && res[qid].endsWith("]")) {
         res[qid] = JSON.parse(res[qid]);
         res[qid].sort();
-              answers[qid].sort();
+        answers[qid].sort();
         correct = res[qid].join() === answers[qid].join();
       } else {
-              correct = res[qid] === answers[qid];
-          }
+        correct = res[qid] === answers[qid];
+      }
 
       let id = await answersData.where({openId: openId, qid: qid}).find();
       if (think.isEmpty(id)) {

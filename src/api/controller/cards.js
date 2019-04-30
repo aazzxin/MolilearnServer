@@ -9,7 +9,21 @@ module.exports = class extends Base {
       res = {total: 1}
     }
 
-    return this.success(res.total)
+    // 记录历史
+    const history = this.model('history');
+    const openId = this.getLoginUserId();
+    var id = history.where({openId: openId, cid: cid}).find();
+    if (this.isEmpty(id)) {
+      history.add({
+        openId: openId,
+        cid: cid,
+        time: this.getDate()
+      });
+    } else {
+      history.where({openId: openId, cid: cid}).update({time: this.getDate()});
+    }
+
+    return this.success(res.total);
   }
 
   async menuAction() {
