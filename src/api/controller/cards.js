@@ -61,6 +61,16 @@ module.exports = class extends Base {
     return this.success();
   }
 
+  async renameAction() {
+    const cid = this.get('cid');
+    const title = this.get('title');
+    const model = this.model('cards');
+
+    let id = await model.where({cid: cid}).update({title: title});
+
+    return this.success();
+  }
+
   async deleteAction() {
     const cid = this.get('cid');
     const model = this.model('cards');
