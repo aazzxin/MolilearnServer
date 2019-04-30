@@ -60,4 +60,13 @@ module.exports = class extends Base {
     
     return this.success();
   }
+
+  async deleteAction() {
+    const cid = this.get('cid');
+    const model = this.model('cards');
+
+    let affectedRows = model.where({cid: cid}).delete();
+
+    return affectedRows > 0 ? this.success() : this.fail('删除失败')
+  }
 };
