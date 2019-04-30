@@ -67,6 +67,6 @@ module.exports = class extends Base {
 
     let affectedRows = model.where({cid: cid}).delete();
 
-    return affectedRows > 0 ? this.success() : this.fail('删除失败')
+    return this.success()
   }
 };
