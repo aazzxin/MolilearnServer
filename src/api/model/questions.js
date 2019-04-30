@@ -43,7 +43,7 @@ module.exports = class extends think.Model {
         qid: think.uuid(6),
         cid: cid,
         idx: questions[i].index,
-        single: questions[i].single,
+        single: questions[i].single ? 1 : 0,
         title: questions[i].title,
         qst: JSON.stringify(questions[i].checkboxList),
         answer: JSON.stringify(questions[i].selectValue),
