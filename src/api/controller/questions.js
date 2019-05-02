@@ -77,7 +77,7 @@ module.exports = class extends Base {
     const model = this.model('collsionQst');
 
     const data = await model.join('questions ON collsionQst.qid=questions.qid')
-    .field(['qid', 'questions.title as title'])
+    .field(['questions.qid', 'questions.title as title'])
     .where({openId: openId, isColl: true}).order('time DESC').select();
 
     return this.success(data);
@@ -88,7 +88,7 @@ module.exports = class extends Base {
     const model = this.model('answers');
 
     const data = await model.join('questions ON answers.qid=questions.qid')
-      .field(['qid', 'questions.title as title'])
+      .field(['questions.qid', 'questions.title as title'])
       .where({openId: openId, correct: true}).select();
 
     return this.success(data);
