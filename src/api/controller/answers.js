@@ -18,7 +18,7 @@ module.exports = class extends Base {
   
     // 返回题库答案
     const allAnswer = await questions.field(['qid', 'answer']).where({cid: cid}).select();
-    const res = await this.model('answers').checkout(openId, allAnswer);
+    const res = await this.model('answers').checkout(openId, answers, allAnswer);
   
     return this.success(res);
   }
@@ -33,7 +33,7 @@ module.exports = class extends Base {
     const questions = this.model('questions');
 
     const allAnswer = await questions.field(['qid', 'answer']).where({qid: qid}).select();
-    const res = await this.model('answers').checkout(openId, allAnswer);
+    const res = await this.model('answers').checkout(openId, answers, allAnswer);
 
     return this.success(res[qid]);
   }
