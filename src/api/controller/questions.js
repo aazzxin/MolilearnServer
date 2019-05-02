@@ -74,22 +74,26 @@ module.exports = class extends Base {
 
   async collListAction() {
     const openId = this.getLoginUserId();
+    const page = this.get('page');
+    const size = this.get('size');
     const model = this.model('collsionQst');
 
     const data = await model.join('questions ON collsionQst.qid=questions.qid')
-    .field(['questions.qid', 'questions.title as title'])
-    .where({openId: openId, isColl: true}).order('time DESC').select();
+    .field(['questions.qid', 'questions.title as title']).where({openId: openId, isColl: true})
+    .page(page || 1, size || 10).order('time DESC').select();
 
     return this.success(data);
   }
 
   async wrongListAction() {
     const openId = this.getLoginUserId();
+    const page = this.get('page');
+    const size = this.get('size');
     const model = this.model('answers');
 
     const data = await model.join('questions ON answers.qid=questions.qid')
-      .field(['questions.qid', 'questions.title as title'])
-      .where({openId: openId, correct: true}).select();
+      .field(['questions.qid', 'questions.title as title']).where({openId: openId, correct: true})
+      .page(page || 1, size || 10).select();
 
     return this.success(data);
   }
