@@ -8,8 +8,6 @@ module.exports = class extends Base {
     const openId = this.getLoginUserId();
     const cid = this.get('cid');
     const answers = JSON.parse(this.get('answers'));
-    const users = this.model('users');
-    const usersinfo = this.model('usersinfo');
     const questions = this.model('questions');
   
     const total = await this.model('cards').field(['total']).where({cid: cid}).find();
@@ -32,6 +30,7 @@ module.exports = class extends Base {
     const openId = this.getLoginUserId();
     const qid = this.get('qid');
     const answers = JSON.parse(this.get('answers'));
+    const questions = this.model('questions');
 
     const allAnswer = await questions.field(['qid', 'answer']).where({qid: qid}).select();
     const res = this.model('answers').checkout(openId, allAnswer);

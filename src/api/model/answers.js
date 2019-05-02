@@ -4,6 +4,7 @@ module.exports = class extends think.Model {
   }
 
   async checkout(openId, allAnswer) {
+    const usersinfo = this.model('usersinfo');
     const res = {};
     for (let i = 0; i < allAnswer.length; i++) {
       // 获得答案
