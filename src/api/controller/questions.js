@@ -60,7 +60,7 @@ module.exports = class extends Base {
     const model = this.model('answers');
 
     const data = await model.join('questions ON answers.qid=questions.qid')
-      .field(['questions.qid', 'questions.title as title']).where({openId: openId, correct: true})
+      .field(['questions.qid', 'questions.title as title']).where({openId: openId, correct: false})
       .page(page || 1, size || 10).select();
 
     return this.success(data);
