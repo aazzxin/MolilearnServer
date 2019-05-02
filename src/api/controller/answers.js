@@ -35,6 +35,6 @@ module.exports = class extends Base {
     const allAnswer = await questions.field(['qid', 'answer']).where({qid: qid}).select();
     const res = this.model('answers').checkout(openId, allAnswer);
 
-    return this.success(res);
+    return this.success(res[qid]);
   }
 };
