@@ -7,8 +7,9 @@ module.exports = class extends think.Model {
   * @returns {Promise.<*>}
   */
   async getCardsList(page, size) {
-    const data = await this.join('users ON cards.openId=users.openId')
-      .field(['cards.*', 'users.nickName', 'users.avatar']).order('time DESC')
+    const data = await this.join('users ON cards.openId=users.openId').join('collisionCard ON cards.cid=collisionCard.cid')
+      .field(['cards.*', 'users.nickName', 'users.avatar', 'collisionCard.isColl'])
+      .where({'collisionCard.openId': openId}).order('time DESC')
       .page(page || 1, size || 10).select();
 
     const cards = [];
@@ -20,7 +21,8 @@ module.exports = class extends think.Model {
         avatar: card.avatar,
         title: card.title,
         time: card.time,
-        coll: card.coll
+        coll: card.coll,
+        isColl: card.isColl
       });
     }
 
