@@ -20,6 +20,6 @@ module.exports = class extends Base {
       model.where({openId: openId, cid: cid}).update({isColl: coll, time: this.getDate()});
     }
 
-    return this.success(list);
+    return this.success();
   }
 };
