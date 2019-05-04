@@ -26,7 +26,8 @@ module.exports = class extends Base {
     cards.where({cid: cid}).update({coll: collCount})
     let creator = await cards.field(['openId']).where({cid: cid}).getField('openId', true);
     
-    let userCardCollCount = await model.join('cards ON cards.cid=collisionCard.cid').where({'cards.openId': creator}).count('*');
+    let userCardCollCount = await model.join('cards ON cards.cid=collisionCard.cid')
+    .where({'cards.openId': creator, 'collisionCard.isColl': true}).count('*');
     this.model('usersinfo').where({openId: creator}).update({collNum: userCardCollCount});
 
     return this.success();
