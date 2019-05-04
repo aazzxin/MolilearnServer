@@ -4,7 +4,7 @@ module.exports = class extends Base {
   async cardAction() {
     const openId = this.getLoginUserId();
     const cid = this.get('cid');
-    const coll = this.get('coll');
+    const coll = Boolean(this.get('coll'));
 
     const model = this.model('collisionCard');
 
