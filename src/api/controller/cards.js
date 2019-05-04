@@ -12,7 +12,7 @@ module.exports = class extends Base {
     // 记录历史
     const history = this.model('history');
     const openId = this.getLoginUserId();
-    var id = history.where({openId: openId, cid: cid}).find();
+    var id = history.where({openId: openId, cid: cid}).getField('openId', true);
     if (think.isEmpty(id)) {
       history.add({
         openId: openId,
