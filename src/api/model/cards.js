@@ -11,7 +11,7 @@ module.exports = class extends think.Model {
     const data = await this.join('users ON cards.openId=users.openId').join({
       table: collisionCard,
       join: 'left',
-      on: 'cid'
+      on: ['cid','cid']
     }).field(['cards.*', 'users.nickName', 'users.avatar', 'collisionCard.isColl'])
     .order('time DESC').page(page || 1, size || 10).select();
 
