@@ -13,7 +13,7 @@ module.exports = class extends Base {
       model.add({
         openId: openId,
         cid: cid,
-        isColl: coll,
+        isColl: coll ? 1 : 0,
         time: this.getDate()
       })
     } else {
