@@ -7,13 +7,14 @@ module.exports = class extends think.Model {
   * @returns {Promise.<*>}
   */
   async getCardsList(openId, page, size) {
-    let collisionCard = await this.model('collisionCard').where({openId: openId}).select().buildSql();
-    const data = await this.join('users ON cards.openId=users.openId').join({
-      table: collisionCard,
-      join: 'left',
-      on: 'cid'
-    }).field(['cards.*', 'users.nickName', 'users.avatar', 'collisionCard.isColl'])
-    .order('time DESC').page(page || 1, size || 10).select();
+    let data = await this.model('collisionCard').where({openId: openId}).buildSql().then(table => {
+      this.join('users ON cards.openId=users.openId').join({
+        table: table,
+        join: 'left',
+        on: 'cid'
+      }).field(['cards.*', 'users.nickName', 'users.avatar', 'collisionCard.isColl'])
+      .order('time DESC').page(page || 1, size || 10).select();
+    });
 
     const cards = [];
     for (let i = 0; i < data.length; i++) {
