@@ -8,7 +8,7 @@ module.exports = class extends Base {
 
     const model = this.model('collisionCard');
 
-    let id = model.where({openId: openId, cid: cid}).getField('cid', true);
+    let id = await model.where({openId: openId, cid: cid}).find();
     if (think.isEmpty(id)) {
       model.add({
         openId: openId,
