@@ -7,7 +7,7 @@ module.exports = class extends think.Model {
   * @returns {Promise.<*>}
   */
   async getCardsList(openId, page, size) {
-    let collisionCard = await this.model('collisionCard').where({openId: openId}).buildSql();
+    let collisionCard = await this.model('collisionCard').where({openId: openId}).select().buildSql();
     const data = await this.join('users ON cards.openId=users.openId').join({
       table: collisionCard,
       join: 'left',
