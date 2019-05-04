@@ -17,7 +17,7 @@ module.exports = class extends Base {
         time: this.getDate()
       })
     } else {
-      model.where({openId: openId, cid: cid}).update({isColl: coll, time: this.getDate()});
+      model.where({openId: openId, cid: cid}).update({isColl: coll ? 1 : 0, time: this.getDate()});
     }
 
     return this.success();
