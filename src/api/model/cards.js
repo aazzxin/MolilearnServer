@@ -6,7 +6,7 @@ module.exports = class extends think.Model {
   * 获取首页题库列表
   * @returns {Promise.<*>}
   */
-  async getCardsList(page, size) {
+  async getCardsList(openId, page, size) {
     const data = await this.join('users ON cards.openId=users.openId').join('collisionCard ON cards.cid=collisionCard.cid')
       .field(['cards.*', 'users.nickName', 'users.avatar', 'collisionCard.isColl'])
       .where({'collisionCard.openId': openId}).order('time DESC')
