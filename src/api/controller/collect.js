@@ -50,5 +50,7 @@ module.exports = class extends Base {
     } else {
       await model.where({openId: openId, qid: qid}).update({isColl: coll, time: this.getDate()});
     }
+
+    return this.success();
   }
 };
