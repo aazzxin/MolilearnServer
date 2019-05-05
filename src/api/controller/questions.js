@@ -47,7 +47,7 @@ module.exports = class extends Base {
     const size = this.get('size');
     const model = this.model('collisionQst');
 
-    const data = await model.join('questions ON collsionQst.qid=questions.qid')
+    const data = await model.join('questions ON collisionQst.qid=questions.qid')
     .field(['questions.qid', 'questions.title as title']).where({openId: openId, isColl: true})
     .page(page || 1, size || 10).order('time DESC').select();
 
