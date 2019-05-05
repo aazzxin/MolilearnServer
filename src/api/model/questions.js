@@ -6,7 +6,7 @@ module.exports = class extends think.Model {
    * 获取对应cid的题目列表
    * @returns {Promise.<*>}
    */
-  async getQuestionList(cid, page, size, edit) {
+  async getQuestionList(openId, cid, page, size, edit) {
     let collisionQst = await this.model('collisionQst').where({openId: openId}).buildSelectSql();
     const data = await this.join({
       table: collisionQst,

@@ -2,12 +2,13 @@ const Base = require('./base.js');
 
 module.exports = class extends Base {
   async listAction() {   
+    const openId = this.getLoginUserId();
     const cid = this.get('cid');
     const page = this.get('page');
     const size = this.get('size');
 
     const model = this.model('questions');
-    const data = await model.getQuestionList(cid, page, size, false);
+    const data = await model.getQuestionList(openId, cid, page, size, false);
     return this.success(data);
   }
 
@@ -35,7 +36,7 @@ module.exports = class extends Base {
     const size = this.get('size');
 
     const model = this.model('questions');
-    const data = await model.getQuestionList(cid, page, size, true);
+    const data = await model.getQuestionList(openId, cid, page, size, true);
     
     return this.success(data);
   }
