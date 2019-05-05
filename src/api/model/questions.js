@@ -12,7 +12,7 @@ module.exports = class extends think.Model {
       table: collisionQst,
       join: 'left',
       as: 'collect',
-      on: ['cid','cid']
+      on: ['qid','qid']
     }).field(['questions.*', 'collect.isColl']).where({cid: cid})
     .page(page || 1, size || 5).order('idx ASC').select();
 
