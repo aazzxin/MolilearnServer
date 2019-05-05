@@ -45,7 +45,7 @@ module.exports = class extends Base {
     const openId = this.getLoginUserId();
     const page = this.get('page');
     const size = this.get('size');
-    const model = this.model('collsionQst');
+    const model = this.model('collisionQst');
 
     const data = await model.join('questions ON collsionQst.qid=questions.qid')
     .field(['questions.qid', 'questions.title as title']).where({openId: openId, isColl: true})
