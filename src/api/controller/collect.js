@@ -32,4 +32,23 @@ module.exports = class extends Base {
 
     return this.success();
   }
+
+  async questionAction() {
+    const openId = this.getLoginUserId();
+    const qid = this.get('qid');
+    const coll = this.get('coll');
+
+    const model = this.model('collisionQst');
+    let id = await model.where({openId: openId, qid: qid}).find();
+    if (think.isEmpty(id)) {
+      await model.add({
+        openId: openId,
+        qid: qid,
+        isColl: coll,
+        time: this.getDate()
+      })
+    } else {
+      await model.where({openId: openId, qid: qid}).update({isColl: coll, time: this.getDate()});
+    }
+  }
 };

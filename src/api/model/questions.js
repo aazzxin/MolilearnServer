@@ -7,8 +7,14 @@ module.exports = class extends think.Model {
    * @returns {Promise.<*>}
    */
   async getQuestionList(cid, page, size, edit) {
-    const data = await this.where({cid: cid})
-      .page(page || 1, size || 5).order('idx ASC').select();
+    let collisionQst = await this.model('collisionQst').where({openId: openId}).buildSelectSql();
+    const data = await this.join({
+      table: collisionQst,
+      join: 'left',
+      as: 'collect',
+      on: ['cid','cid']
+    }).field(['questions.*', 'collect.isColl']).where({cid: cid})
+    .page(page || 1, size || 5).order('idx ASC').select();
 
     const questions = [];
     // 字符解析
@@ -24,7 +30,8 @@ module.exports = class extends think.Model {
         title: qst.title,
         checkboxList: JSON.parse(qst.qst),
         note: qst.note,
-        selectValue: []
+        selectValue: [],
+        isColl: qst.isColl ? true : false
       }
       if (edit) {
         res.selectValue = JSON.parse(qst.answer)
