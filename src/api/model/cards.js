@@ -16,6 +16,10 @@ module.exports = class extends think.Model {
     }).field(['cards.*', 'users.nickName', 'users.avatar', 'collect.isColl'])
     .order('time DESC').page(page || 1, size || 10).select();
 
+    return this.dataToCards(data);
+  };
+
+  async dataToCards(data) {
     const cards = [];
     for (let i = 0; i < data.length; i++) {
       const card = data[i];
@@ -32,4 +36,4 @@ module.exports = class extends think.Model {
 
       return cards;
     }
-  };
+  }

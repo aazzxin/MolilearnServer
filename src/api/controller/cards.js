@@ -92,7 +92,8 @@ module.exports = class extends Base {
 
     const history = await this.model('history').where({openId: openId}).buildSelectSql();
     const collisionCard = await this.model('collisionCard').where({openId: openId}).buildSelectSql();
-    const data = await this.model('cards').join({
+    const cards = this.model('cards');
+    const data = await cards.join({
       table: history,
       join: 'right',
       as: 'history',
@@ -107,7 +108,7 @@ module.exports = class extends Base {
     .field(['cards.*', 'users.nickName', 'users.avatar', 'collect.isColl'])
     .order('time DESC').page(page || 1, size || 10).select();
 
-    return this.success(data);
+    return this.success(cards.dataToCards(data));
   }
 
   async collListAction() {
@@ -115,8 +116,8 @@ module.exports = class extends Base {
     const page = this.get('page');
     const size = this.get('size');
     const collisionCard = await this.model('collisionCard').where({openId: openId, isColl: true}).buildSelectSql();
-
-    const data = await this.model('cards').join('users ON cards.openId=users.openId').join({
+    const cards = this.model('cards');
+    const data = await cards.join('users ON cards.openId=users.openId').join({
       table: collisionCard,
       join: 'right',
       as: 'collect',
@@ -124,6 +125,6 @@ module.exports = class extends Base {
     }).field(['cards.*', 'users.nickName', 'users.avatar', 'collect.isColl'])
     .order('time DESC').page(page || 1, size || 10).select();
 
-    return this.success(data);
+    return this.success(cards.dataToCards(data));
   }
 };
