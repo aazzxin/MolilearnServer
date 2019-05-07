@@ -116,7 +116,7 @@ module.exports = class extends Base {
     const size = this.get('size');
     const model = this.model('collisionCard').where({openId: openId, isColl: true});
 
-    const data = await this.model('cards').join('cards ON collisionCard.cid=cards.cid')
+    const data = await model.join('cards ON collisionCard.cid=cards.cid')
     .join('users ON cards.openId=users.openId')
     .field(['cards.*', 'users.nickName', 'users.avatar', 'collisionCard.isColl'])
     .order('time DESC').page(page || 1, size || 10).select();
