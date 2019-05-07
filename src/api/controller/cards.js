@@ -114,14 +114,11 @@ module.exports = class extends Base {
     const openId = this.getLoginUserId();
     const page = this.get('page');
     const size = this.get('size');
-    const collisionCard = this.model('collisionCard').where({openId: openId, isColl: true}).buildSelectSql();
+    const model = this.model('collisionCard').where({openId: openId, isColl: true});
 
-    const data = await this.model('cards').join('users ON cards.openId=users.openId').join({
-      table: collisionCard,
-      join: 'right',
-      as: 'collect',
-      on: ['cid', 'cid']
-    }).field(['cards.*', 'users.nickName', 'users.avatar', 'collect.isColl'])
+    const data = await this.model('cards').join('cards ON collisionCard.cid=cards.cid')
+    .join('users ON cards.openId=users.openId')
+    .field(['cards.*', 'users.nickName', 'users.avatar', 'collisionCard.isColl'])
     .order('time DESC').page(page || 1, size || 10).select();
 
     return this.success(data);
