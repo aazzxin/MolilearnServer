@@ -90,14 +90,10 @@ module.exports = class extends Base {
     const page = this.get('page');
     const size = this.get('size');
 
-    const history = this.model('history').where({openId: openId}).buildSelectSql();
+    const model = this.model('history').where({openId: openId});
     const collisionCard = this.model('collisionCard').where({openId: openId}).buildSelectSql();
-    const data = await this.model('cards').join({
-      table: history,
-      join: 'right',
-      as: 'history',
-      on: ['cid', 'cid']
-    }).join('users ON cards.openId=users.openId')
+    const data = await model.join('cards ON history.cid=cards.cid')
+    .join('users ON cards.openId=users.openId')
     .join({
       table: collisionCard,
       join: 'left',
@@ -114,7 +110,7 @@ module.exports = class extends Base {
     const openId = this.getLoginUserId();
     const page = this.get('page');
     const size = this.get('size');
-    const model = this.model('collisionCard').where({openId: openId, isColl: true});
+    const model = this.model('collisionCard').where({'CollisionCard.openId': openId, isColl: true});
 
     const data = await model.join('cards ON collisionCard.cid=cards.cid')
     .join('users ON cards.openId=users.openId')
