@@ -17,11 +17,11 @@ module.exports = class extends think.Model {
     let data = field;
     const filter = ['cards.title']
     if (!think.isEmpty(key)) {
-      data = field.where('cards.time = '+ key 
+      data = await field.where('cards.time = '+ key 
       + ' OR cards.title LIKE %' + key + '%'
       + ' OR users.nickName LIKE %' + key + '%')
     }
-    data = data.order('time DESC').page(page || 1, size || 10).select();
+    data = await data.order('time DESC').page(page || 1, size || 10).select();
 
     return this.dataToCards(data);
   };
