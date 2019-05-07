@@ -116,13 +116,12 @@ module.exports = class extends Base {
     const size = this.get('size');
     const collisionCard = this.model('collisionCard').where({openId: openId, isColl: true}).buildSelectSql();
 
-    const data = await this.model('cards').join({
+    const data = await this.model('cards').join('users ON cards.openId=users.openId').join({
       table: collisionCard,
       join: 'right',
       as: 'collect',
       on: ['cid', 'cid']
-    }).join('users ON cards.openId=users.openId')
-    .field(['cards.*', 'users.nickName', 'users.avatar', 'collect.isColl'])
+    }).field(['cards.*', 'users.nickName', 'users.avatar', 'collect.isColl'])
     .order('time DESC').page(page || 1, size || 10).select();
 
     return this.success(data);
