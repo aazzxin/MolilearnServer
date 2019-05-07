@@ -6,15 +6,22 @@ module.exports = class extends think.Model {
   * 获取首页题库列表
   * @returns {Promise.<*>}
   */
-  async getCardsList(openId, page, size) {
+  async getCardsList(openId, key, page, size) {
     let collisionCard = await this.model('collisionCard').where({openId: openId}).buildSelectSql();
-    const data = await this.join('users ON cards.openId=users.openId').join({
+    const field = await this.join('users ON cards.openId=users.openId').join({
       table: collisionCard,
       join: 'left',
       as: 'collect',
       on: ['cid','cid']
-    }).field(['cards.*', 'users.nickName', 'users.avatar', 'collect.isColl'])
-    .order('time DESC').page(page || 1, size || 10).select();
+    }).field(['cards.*', 'users.nickName', 'users.avatar', 'collect.isColl']);
+    let data = field;
+    const filter = ['cards.title']
+    if (!think.isEmpty(key)) {
+      data = field.where('cards.time = '+ key 
+      + ' OR cards.title LIKE %' + key + '%'
+      + ' OR users.nickName LIKE %' + key + '%')
+    }
+    data = data.order('time DESC').page(page || 1, size || 10).select();
 
     return this.dataToCards(data);
   };
