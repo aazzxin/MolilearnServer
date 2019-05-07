@@ -90,10 +90,14 @@ module.exports = class extends Base {
     const page = this.get('page');
     const size = this.get('size');
 
-    const model = this.model('history').where({openId: openId});
+    const history = await this.model('history').where({openId: openId}).buildSelectSql();
     const collisionCard = await this.model('collisionCard').where({openId: openId}).buildSelectSql();
-    const data = await model.join('cards ON history.cid=cards.cid')
-    .join('users ON cards.openId=users.openId')
+    const data = await this.model('cards').join({
+      table: history,
+      join: 'right',
+      as: 'history',
+      on: ['cid', 'cid']
+    }).join('users ON cards.openId=users.openId')
     .join({
       table: collisionCard,
       join: 'left',
@@ -110,11 +114,14 @@ module.exports = class extends Base {
     const openId = this.getLoginUserId();
     const page = this.get('page');
     const size = this.get('size');
-    const model = this.model('collisionCard').where({openId: openId, isColl: true});
+    const collisionCard = await this.model('collisionCard').where({openId: openId, isColl: true}).buildSelectSql();
 
-    const data = await model.join('cards ON collisionCard.cid=cards.cid')
-    .join('users ON cards.openId=users.openId')
-    .field(['cards.*', 'users.nickName', 'users.avatar', 'collisionCard.isColl'])
+    const data = await this.model('cards').join('users ON cards.openId=users.openId').join({
+      table: collisionCard,
+      join: 'right',
+      as: 'collect',
+      on: ['cid', 'cid']
+    }).field(['cards.*', 'users.nickName', 'users.avatar', 'collect.isColl'])
     .order('time DESC').page(page || 1, size || 10).select();
 
     return this.success(data);
