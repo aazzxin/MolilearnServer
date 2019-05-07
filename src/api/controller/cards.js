@@ -108,8 +108,8 @@ module.exports = class extends Base {
     .field(['cards.*', 'users.nickName', 'users.avatar', 'collect.isColl'])
     .order('time DESC').page(page || 1, size || 10).select();
 
-    data = await cards.dataToCards(data);
-    return this.success(data);
+    let res = await cards.dataToCards(data);
+    return this.success(res);
   }
 
   async collListAction() {
@@ -125,7 +125,7 @@ module.exports = class extends Base {
       on: ['cid', 'cid']
     }).field(['cards.*', 'users.nickName', 'users.avatar', 'collect.isColl'])
     .order('time DESC').page(page || 1, size || 10).select();
-    data = await cards.dataToCards(data);
-    return this.success(data);
+    let res = await cards.dataToCards(data);
+    return this.success(res);
   }
 };
