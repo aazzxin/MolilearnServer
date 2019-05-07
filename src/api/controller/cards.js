@@ -84,4 +84,37 @@ module.exports = class extends Base {
 
     return this.success()
   }
+
+  async historyAction() {
+    const openId = this.getLoginUserId();
+    const page = this.get('page');
+    const size = this.get('size');
+    const model = this.model('history').where({openId: openId}).buildSelectSql();
+
+    const collisionCard = this.model('collisionCard').where({openId: openId}).buildSelectSql();
+    const data = await model.join('cards ON history.cid=cards.cid').join('users ON cards.openId=users.openId')
+    .join({
+      table: collisionCard,
+      join: 'left',
+      as: 'collect',
+      on: ['cid','cid']
+    })
+    .field(['cards.*', 'users.nickName', 'users.avatar', 'collect.isColl'])
+    .order('time DESC').page(page || 1, size || 10).select();
+
+    return this.success(data);
+  }
+
+  async collListAction() {
+    const openId = this.getLoginUserId();
+    const page = this.get('page');
+    const size = this.get('size');
+    const model = this.model('collisionCard').where({openId: openId, isColl: true}).buildSelectSql();
+
+    const data = await model.join('cards ON collisionCard.cid=cards.cid').join('users ON cards.openId=users.openId')
+    .field(['cards.*', 'users.nickName', 'users.avatar', 'collisionCard.isColl'])
+    .order('time DESC').page(page || 1, size || 10).select();
+
+    return this.success(data);
+  }
 };
