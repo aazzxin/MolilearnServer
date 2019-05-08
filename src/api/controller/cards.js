@@ -43,8 +43,6 @@ module.exports = class extends Base {
     const questions = JSON.parse(this.get('questions'));
     const model = this.model('cards');
     const cid = think.uuid(6);
-    console.log('cid', cid);
-    console.log('questions', questions);
 
     let card = await model.add({
       cid: cid,
@@ -58,6 +56,25 @@ module.exports = class extends Base {
     const qstsModel = this.model('questions');
     qstsModel.addQuestionList(cid, questions);
     
+    return this.success();
+  }
+
+  async saveAction() {
+    const cid = this.get('cid');
+    const title = this.get('title');
+    const editList = JSON.parse(this.get('editList'));
+    const newList = JSON.parse(this.get('newList'));
+    const deleteList = this.get('deleteList').split(',');
+    const model = this.model('cards');
+    const qstsModel = this.model('questions');
+
+    const verifyTitle = await model.where({cid: cid}).update({title: title});
+    for (let i = 0; i < deleteList.length; i++) {
+      qstsModel.where({qid: deleteList[i]}).delete();
+    }
+    qstsModel.addQuestionList(cid, newList);
+    qstsModel.editQuestionList(cid, editList);
+
     return this.success();
   }
 

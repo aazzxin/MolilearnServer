@@ -58,4 +58,21 @@ module.exports = class extends think.Model {
       });
     }
   }
+  /**
+   * 保存修改的编辑题目
+   */
+  async editQuestionList(cid, questions) {
+    var qidSet = new Set();
+    for(let i = 0; i < questions.length; i++) {
+      let curQst = questions[i];
+      let id = this.where({qid: curQst.qid}).update({
+        idx: curQst.index,
+        single: curQst.single ? 1 : 0,
+        title: curQst.title,
+        qst: JSON.stringify(curQst.checkboxList),
+        answer: JSON.stringify(curQst.selectValue),
+        note: ''
+      })
+    }
+  }
 };
