@@ -44,7 +44,8 @@ module.exports = class extends think.Model {
     return cards;
   }
 
-  async updateTotal() {
-    
+  async updateTotal(cid) {
+    const total = await this.model('questions').where({cid: cid}).count('*');
+    await this.where({cid: cid}).update({total: total});
   }
 }
