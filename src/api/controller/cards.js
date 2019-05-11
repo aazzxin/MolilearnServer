@@ -74,6 +74,7 @@ module.exports = class extends Base {
     }
     qstsModel.addQuestionList(cid, newList);
     qstsModel.editQuestionList(cid, editList);
+    model.updateTotal(cid);
 
     return this.success();
   }
@@ -98,6 +99,7 @@ module.exports = class extends Base {
     const usersinfo = this.model('usersinfo');
     const correctNum = await answersData.where({openId: openId, correct: true}).count('*');
     usersinfo.where({openId: openId}).update({correctNum: correctNum});
+    model.updateTotal(cid);
 
     return this.success()
   }

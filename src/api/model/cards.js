@@ -41,6 +41,10 @@ module.exports = class extends think.Model {
       });
     }
 
-      return cards;
-    }
+    return cards;
   }
+
+  async updateTotal() {
+    
+  }
+}
