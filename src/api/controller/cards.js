@@ -10,17 +10,19 @@ module.exports = class extends Base {
     }
 
     // 记录历史
-    const history = this.model('history');
-    const openId = this.getLoginUserId();
-    var id = await history.where({openId: openId, cid: cid}).find();
-    if (think.isEmpty(id)) {
-      history.add({
-        openId: openId,
-        cid: cid,
-        time: this.getDate()
-      });
-    } else {
-      history.where({openId: openId, cid: cid}).update({time: this.getDate()});
+    if (!think.isEmpty(cid)) {
+      const history = this.model('history');
+      const openId = this.getLoginUserId();
+      var id = await history.where({openId: openId, cid: cid}).find();
+      if (think.isEmpty(id)) {
+        history.add({
+          openId: openId,
+          cid: cid,
+          time: this.getDate()
+        });
+      } else {
+        history.where({openId: openId, cid: cid}).update({time: this.getDate()});
+      }
     }
 
     return this.success(res.total);
