@@ -39,8 +39,8 @@ module.exports = class extends Base {
   }
 
   async addAction() {
-    const title = this.get('title');
-    const questions = JSON.parse(this.get('questions'));
+    const title = this.post('title');
+    const questions = JSON.parse(this.post('questions'));
     const model = this.model('cards');
     const cid = think.uuid(6);
 
@@ -60,11 +60,11 @@ module.exports = class extends Base {
   }
 
   async saveAction() {
-    const cid = this.get('cid');
-    const title = this.get('title');
-    const editList = JSON.parse(this.get('editList'));
-    const newList = JSON.parse(this.get('newList'));
-    const deleteList = this.get('deleteList').split(',');
+    const cid = this.post('cid');
+    const title = this.post('title');
+    const editList = JSON.parse(this.post('editList'));
+    const newList = JSON.parse(this.post('newList'));
+    const deleteList = this.post('deleteList').split(',');
     const model = this.model('cards');
     const qstsModel = this.model('questions');
 
