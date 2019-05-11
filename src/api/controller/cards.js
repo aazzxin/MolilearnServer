@@ -62,8 +62,8 @@ module.exports = class extends Base {
   async saveAction() {
     const cid = this.post('cid');
     const title = this.post('title');
-    const editList = JSON.parse(this.post('editList'));
-    const newList = JSON.parse(this.post('newList'));
+    const editList = this.post('editList');
+    const newList = this.post('newList');
     const deleteList = this.post('deleteList').split(',');
     const model = this.model('cards');
     const qstsModel = this.model('questions');
