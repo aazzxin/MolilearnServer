@@ -40,7 +40,7 @@ module.exports = class extends Base {
 
   async addAction() {
     const title = this.post('title');
-    const questions = JSON.parse(this.post('questions'));
+    const questions = this.post('questions');
     const model = this.model('cards');
     const cid = think.uuid(6);
 
@@ -74,7 +74,7 @@ module.exports = class extends Base {
     }
     qstsModel.addQuestionList(cid, newList);
     qstsModel.editQuestionList(cid, editList);
-    model.updateTotal(cid);
+    await model.updateTotal(cid);
 
     return this.success();
   }
@@ -99,7 +99,7 @@ module.exports = class extends Base {
     const usersinfo = this.model('usersinfo');
     const correctNum = await answersData.where({openId: openId, correct: true}).count('*');
     usersinfo.where({openId: openId}).update({correctNum: correctNum});
-    model.updateTotal(cid);
+    await model.updateTotal(cid);
 
     return this.success()
   }
