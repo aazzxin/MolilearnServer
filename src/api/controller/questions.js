@@ -17,7 +17,7 @@ module.exports = class extends Base {
     const qid = this.get('qid');
     const model = this.model('questions');
     const qst = await model.where({qid: qid}).find();
-    const isColl = await this.model('collisionQst').where({openId: openId, qid: qid}).getField('isColl', true)
+    const isColl = await this.model('collisionQst').where({openId: openId, qid: qid}).getField('isColl', true);
     return this.success({
       qid: qst.qid,
       cid: qst.cid,
