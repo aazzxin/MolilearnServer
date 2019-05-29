@@ -13,9 +13,11 @@ module.exports = class extends Base {
   }
 
   async oneAction() {
+    const openId = this.getLoginUserId();
     const qid = this.get('qid');
     const model = this.model('questions');
     const qst = await model.where({qid: qid}).find();
+    const isColl = await this.model('collisionQst').where({openId: openId, qid: qid}).getField('isColl', true)
     return this.success({
       qid: qst.qid,
       cid: qst.cid,
@@ -25,7 +27,8 @@ module.exports = class extends Base {
       title: qst.title,
       checkboxList: JSON.parse(qst.qst),
       note: qst.note,
-      selectValue: []
+      selectValue: [],
+      isColl: isColl
     });
   }
 
