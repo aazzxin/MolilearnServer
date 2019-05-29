@@ -28,7 +28,7 @@ module.exports = class extends Base {
       checkboxList: JSON.parse(qst.qst),
       note: qst.note,
       selectValue: [],
-      isColl: isColl
+      isColl: isColl ? true : false
     });
   }
 
